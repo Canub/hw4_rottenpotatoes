@@ -1,0 +1,25 @@
+require 'spec_helper'
+
+describe MoviesController do
+	describe 'Find Movies With Same Director' do
+		it 'should call the model method responsible for finding the movies with the same director' do
+			Movie.should_receive(:find_director_movies).with("m1")
+			post :find_similar_movies, {:title => "m1"}
+		end
+		context "current movie has director" do
+			it "should return a list of movies with the same director" do
+				fake_results = [mock('Movie'),mock('Movie')]
+				Movie.stub(:find_director_movies).and_return(fake_results)
+				post :find_similar_movies, {:title => "m1"}
+				assigns(:movies).should == fake_results
+			end
+		end
+		context "no director" do
+			it "should return an empty list" do
+				Movie.stub(:find_director_movies).and_return([])
+				post :find_similar_movies, {:title => "m1"}
+				assigns(:movies).should == []
+			end
+		end
+	end
+end

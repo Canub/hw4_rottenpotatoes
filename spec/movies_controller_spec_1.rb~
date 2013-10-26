@@ -1,0 +1,10 @@
+require 'spec.helper'
+
+describe MoviesController do
+	describe 'Find Movies With Same Director'
+		it 'should call the model method responsible for finding the movies with the same director' do
+		Movies.should_recive(:find_director_movies).with(1)
+		post :find_similar_movies, {:id => 1}
+		end
+	end
+end

@@ -1,0 +1,15 @@
+require 'spec_helper'
+#a model method in the Movie model to find movies whose director matches that of the current movie.
+
+describe Movie do
+	describe "Find Movies With Same Director" do
+	 	it "should search for movies whose director matches that of the current movie" do
+			currentM = FactoryGirl.create(:movie, {:director => "dude", :id => 1})
+			sameDirM = FactoryGirl.create(:movie, {:director => "dude", :id => 2})
+			difDirM = FactoryGirl.create(:movie, :id => 3)
+			list = Movie.find_director_movies(1)
+			list.should_not be_empty
+			list.each {|movie| movie.director.should == "dude"}
+		end
+	end
+end
